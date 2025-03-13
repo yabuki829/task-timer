@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Task, Timer as TimerType } from '../types/tasks';
 import { TaskForm } from '../components/forms/task-form';
 import { TaskDetail } from '../components/views/task-detail-view';
@@ -27,7 +27,32 @@ export default function Home() {
     }
   }, []);
 
-  const handleTimerComplete = () => {
+  const calculateSessionDuration = useCallback(() => {
+    if (!timer.startTime) return 0;
+    const endTime = new Date();
+    const duration = Math.floor((endTime.getTime() - timer.startTime.getTime()) / 1000);
+    return duration;
+  }, [timer.startTime]);
+
+  const updateTaskTime = useCallback((taskId: string, duration: number) => {
+    setTasks(tasks.map(task => {
+      if (task.id === taskId) {
+        const newSession = {
+          startTime: timer.startTime!.toISOString(),
+          endTime: new Date().toISOString(),
+          duration,
+        };
+        return {
+          ...task,
+          timeSpent: task.timeSpent + duration,
+          sessions: [...task.sessions, newSession],
+        };
+      }
+      return task;
+    }));
+  }, [tasks, setTasks, timer.startTime]);
+
+  const handleTimerComplete = useCallback(() => {
     if (selectedTask && timer.startTime) {
       const duration = calculateSessionDuration();
       updateTaskTime(selectedTask.id, duration);
@@ -37,7 +62,7 @@ export default function Home() {
       isRunning: false,
       startTime: null,
     }));
-  };
+  }, [selectedTask, timer.startTime, calculateSessionDuration, updateTaskTime]);
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
@@ -91,31 +116,6 @@ export default function Home() {
 
   const handleTaskSelect = (task: Task) => {
     setSelectedTask(task);
-  };
-
-  const calculateSessionDuration = () => {
-    if (!timer.startTime) return 0;
-    const endTime = new Date();
-    const duration = Math.floor((endTime.getTime() - timer.startTime.getTime()) / 1000);
-    return duration;
-  };
-
-  const updateTaskTime = (taskId: string, duration: number) => {
-    setTasks(tasks.map(task => {
-      if (task.id === taskId) {
-        const newSession = {
-          startTime: timer.startTime!.toISOString(),
-          endTime: new Date().toISOString(),
-          duration,
-        };
-        return {
-          ...task,
-          timeSpent: task.timeSpent + duration,
-          sessions: [...task.sessions, newSession],
-        };
-      }
-      return task;
-    }));
   };
 
   const handleTimerStart = () => {
@@ -189,12 +189,16 @@ export default function Home() {
       <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="space-y-6">
           <div className="flex justify-end items-center">
+
             <button
-              onClick={() => setShowForm(true)}
-              className="flex items-center px-4 py-2 text-white rounded-md bg-blue-400 hover:bg-blue-300"
+              onClick={() => {
+                setShowForm(!showForm);
+              }}
+              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
             >
+
               <Plus className="h-5 w-5 mr-1" />
-              新規タスク
+              {showForm ? '閉じる' : '新規'}
             </button>
           </div>
 
@@ -244,6 +248,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Task } from '../../types/tasks';
-import { Clock, AlertCircle } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 interface TaskFormProps {
-    onSubmit: (task: Omit<Task, 'id' | 'createdAt' | 'status' | 'timeSpent' | 'sessions'>) => void;
+    onSubmit: (task: Omit<Task, 'id' | 'createdAt' | 'status' | 'timeSpent'>) => void;
     onCancel: () => void;
 }
 
@@ -22,7 +22,6 @@ const priorityOptions: PriorityOption[] = [
 
 export function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
     const [dueDate, setDueDate] = useState('');
     const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
 
@@ -30,9 +29,10 @@ export function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
         e.preventDefault();
         onSubmit({
             title,
-            description,
             dueDate,
             priority,
+            description: '',
+            sessions: [],
         });
     };
 
@@ -86,7 +86,6 @@ export function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
 
             </div>
 
-
             <div className="flex justify-end space-x-3">
                 <button
                     type="button"
@@ -97,7 +96,7 @@ export function TaskForm({ onSubmit, onCancel }: TaskFormProps) {
                 </button>
                 <button
                     type="submit"
-                    className="px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md bg-blue-400 hover:bg-blue-300"
+                    className="px-4 py-2 text-sm font-medium text-white bg-blue-400 border border-transparent rounded-md hover:bg-blue-300"
                 >
                     保存
                 </button>
