@@ -45,14 +45,14 @@ export function TaskDetail({
     };
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen  bg-gray-700">
             <div className="max-w-4xl mx-auto py-8 px-4">
                 <button
                     onClick={onBack}
-                    className="flex items-center text-gray-600 hover:text-gray-900 mb-6"
+                    className="flex items-center text-white   hover:bg-gray-600 rounded-full p-2 m-4"
                 >
                     <ArrowLeft className="h-5 w-5 mr-1" />
-                    タスク一覧に戻る
+
                 </button>
 
                 <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -71,7 +71,7 @@ export function TaskDetail({
                     <div className="p-6">
                         <div className="flex items-start justify-between">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-900 mb-2">{task.title}</h1>
+                                <h1 className="text-2xl font-bold text-black mb-2">{task.title}</h1>
                                 <p className="text-gray-600 mb-4">{task.description}</p>
                             </div>
                             <div className={`px-3 py-1 rounded-full text-sm font-medium ${priorityColors[task.priority]}`}>

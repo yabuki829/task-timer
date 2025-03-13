@@ -185,13 +185,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-700">
       <div className="max-w-4xl mx-auto py-8 px-4">
         <div className="space-y-6">
           <div className="flex justify-end items-center">
             <button
               onClick={() => setShowForm(true)}
-              className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              className="flex items-center px-4 py-2 text-white rounded-md bg-blue-400 hover:bg-blue-300"
             >
               <Plus className="h-5 w-5 mr-1" />
               新規タスク
@@ -244,6 +244,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -55,7 +55,7 @@ export function TaskList({ tasks, onToggleStatus, onDelete, onSelect, sortBy, on
                         <div className="flex items-start justify-between">
                             <div className="flex-1 cursor-pointer" onClick={() => onSelect(task)}>
                                 <div className="flex items-center justify-between">
-                                    <h3 className={`text-lg font-medium ${task.status === 'complete' ? 'line-through text-gray-500' : ''
+                                    <h3 className={`text-lg font-medium ${task.status === 'complete' ? 'line-through text-gray-500' : 'text-gray-900'
                                         }`}>
                                         {task.title}
                                     </h3>

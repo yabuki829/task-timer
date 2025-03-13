@@ -21,12 +21,7 @@ export function Timer({ timer, onStart, onPause, onReset, onDurationChange }: Ti
 
     useEffect(() => {
         if (timer.remainingTime === 0 && timer.isRunning) {
-            new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg').play();
-            if (Notification.permission === 'granted') {
-                new Notification('タイマー終了', {
-                    body: '設定した時間が経過しました',
-                });
-            }
+            //　ソナーを表示
         }
     }, [timer.remainingTime, timer.isRunning]);
 
@@ -51,7 +46,7 @@ export function Timer({ timer, onStart, onPause, onReset, onDurationChange }: Ti
                             r="120"
                             fill="none"
                             stroke="#E5E5EA"
-                            strokeWidth="4"
+                            strokeWidth="10"
                         />
                         {/* Progress circle */}
                         <circle
@@ -61,7 +56,7 @@ export function Timer({ timer, onStart, onPause, onReset, onDurationChange }: Ti
                             r="120"
                             fill="none"
                             stroke={isLowTime ? '#FF3B30' : '#007AFF'}
-                            strokeWidth="4"
+                            strokeWidth="10"
                             strokeDasharray={circumference}
                             strokeDashoffset={strokeDashoffset}
                             strokeLinecap="round"
@@ -74,7 +69,7 @@ export function Timer({ timer, onStart, onPause, onReset, onDurationChange }: Ti
                         role="timer"
                         aria-label={`残り時間 ${minutes}分${seconds}秒`}
                     >
-                        <div className="text-6xl font-['SF_Pro_Display',-apple-system,BlinkMacSystemFont,sans-serif] tracking-tight">
+                        <div className="text-6xl text-gray-500 font-['SF_Pro_Display',-apple-system,BlinkMacSystemFont,sans-serif] tracking-tight">
                             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
                         </div>
                     </div>
@@ -127,7 +122,7 @@ export function Timer({ timer, onStart, onPause, onReset, onDurationChange }: Ti
                     </button>
                     <button
                         onClick={onReset}
-                        className="p-4 rounded-full bg-white text-gray-600 hover:bg-gray-50 transition-colors"
+                        className="p-4 rounded-full bg-gray-200 text-gray-600 transition-colors hover:bg-gray-200 rounded-full cursor-pointer"
                         aria-label="タイマーをリセット"
                     >
                         <RefreshCw className="h-6 w-6" />
